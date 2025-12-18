@@ -1,0 +1,28 @@
+
+services:
+  db:
+    image: postgres:17
+    container_name: notion_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 0000
+      POSTGRES_DB: notion_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    container_name: backend
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://postgres:0000@db:5432/notion_db
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgres_data:
