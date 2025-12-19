@@ -5,7 +5,7 @@ services:
     container_name: notion_db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 0000
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: notion_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -15,11 +15,15 @@ services:
   backend:
     build: ./backend
     container_name: backend
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+#    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    command: >
+      sh -c "sleep 40 && 
+             alembic upgrade head &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     depends_on:
       - db
-    environment:
-      DATABASE_URL: postgresql://postgres:0000@db:5432/notion_db
+#    environment:
+#      DATABASE_URL: postgresql://postgres:0000@db:5432/notion_db
     volumes:
       - ./backend:/app
     ports:
