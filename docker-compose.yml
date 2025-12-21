@@ -15,19 +15,29 @@ services:
   backend:
     build: ./backend
     container_name: backend
-#    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     command: >
       sh -c "sleep 40 && 
              alembic upgrade head &&
              uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     depends_on:
       - db
-#    environment:
-#      DATABASE_URL: postgresql://postgres:0000@db:5432/notion_db
     volumes:
       - ./backend:/app
     ports:
       - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: "http://backend:8000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:

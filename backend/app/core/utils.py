@@ -2,18 +2,15 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from app.models.user import User
 import bcrypt
-from datetime import datetime
-from jose import jwt
+from datetime import datetime, timedelta
+from jose import JWTError, jwt
 
 from app.core.config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 
 
 def hash_password(password: str) -> str:
-    # Преобразуем пароль в байты
     password_bytes = password.encode('utf-8')
-    # Хешируем с bcrypt
     hashed = bcrypt.hashpw(password_bytes, bcrypt.gensalt())
-    # Возвращаем строку для хранения в базе
     return hashed.decode('utf-8')
 
 
@@ -25,8 +22,11 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 def create_access_token(data: dict, expires_delta=None):
     to_encode = data.copy()
-    expire = datetime.utcnow() + expires_delta
-    to_encode.update({"exp": expire})
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({'exp': expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 

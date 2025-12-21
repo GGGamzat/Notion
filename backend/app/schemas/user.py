@@ -16,6 +16,10 @@ class UserLogin(BaseModel):
     password: str
 
 
+class UserResponse(BaseModel):
+    id: int
+
+
 class Token(BaseModel):
     access_token: str
     token_type: str

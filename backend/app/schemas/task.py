@@ -13,6 +13,10 @@ class TaskCreate(TaskBase):
     pass
 
 
+class TaskStatusUpdate(BaseModel):
+    is_completed: bool
+
+
 class TaskUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
