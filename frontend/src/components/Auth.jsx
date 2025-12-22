@@ -12,12 +12,12 @@ const Auth = ({ onLogin }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
 
-  // const API_BASE_URL = 'http://localhost:8000';
-const API_BASE_URL = 'http://127.0.0.1:8000';
-// const { hostname, port } = window.location;
-// const API_BASE_URL = (hostname === 'localhost' && port === '3000') 
-//   ? 'http://backend:8000'    // ← для Docker
-//   : 'http://localhost:8000'; // ← для локальной разработки
+  const API_BASE_URL = process.env.NODE_ENV === 'development' 
+      ? 'http://127.0.0.1:8000'  // Для локальной разработки
+      : '';  // В продакшене - тот же домен
+      
+  // const API_BASE_URL = 'http://127.0.0.1:8000';
+
 
   const handleChange = (e) => {
     setFormData({
