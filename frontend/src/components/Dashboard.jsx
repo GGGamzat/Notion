@@ -9,9 +9,11 @@ const Dashboard = ({ user, onLogout }) => {
   const [showForm, setShowForm] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
 
-  const API_BASE_URL = process.env.NODE_ENV === 'development' 
-      ? 'http://127.0.0.1:8000'  // Для локальной разработки
-      : '';  // В продакшене - тот же домен
+  // const API_BASE_URL = process.env.NODE_ENV === 'development' 
+  //     ? 'http://127.0.0.1:8000'  // Для локальной разработки
+  //     : '';  // В продакшене - тот же домен
+
+  const API_BASE_URL = process.env.REACT_APP_API_URL || '';
 
   // const API_BASE_URL = 'http://127.0.0.1:8000';
 
