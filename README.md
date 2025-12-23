@@ -1,6 +1,9 @@
 # Notion
 Notion - веб-приложение для управления задачами
 
+Ссылка на веб-приложение - https://notion-tau-drab.vercel.app/
+Ссылка на API - https://notion-production-d07a.up.railway.app/docs
+
 ## Предварительные требования:
 + Установленный Docker и Docker Compose
 + 1 ГБ свободной памяти
